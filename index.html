@@ -66,6 +66,7 @@
     font-size:18px; letter-spacing:0.02em; display:flex; align-items:center; gap:9px;
   }
   .logo .dot{width:8px; height:8px; border-radius:50%; background:var(--accent); transition:background .4s ease;}
+  .logo img{width:30px; height:30px; border-radius:8px; object-fit:cover;}
   .nav-links{display:flex; align-items:center; gap:6px; list-style:none;}
   .nav-links a{
     font-size:13.5px; font-weight:500; padding:9px 16px; border-radius:100px;
@@ -85,13 +86,20 @@
   /* ---------- HERO ---------- */
   .hero{
     min-height:100svh; display:flex; flex-direction:column; justify-content:center;
-    position:relative; padding:120px 0 60px;
+    position:relative; padding:120px 0 60px; overflow:hidden;
+  }
+  .hero-video{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; opacity:0.42;
+  }
+  .hero-overlay{
+    position:absolute; inset:0; z-index:1;
     background:
       radial-gradient(ellipse 900px 500px at 15% 0%, var(--amber-dim), transparent 60%),
       radial-gradient(ellipse 700px 500px at 85% 15%, var(--blue-dim), transparent 60%),
-      radial-gradient(ellipse 800px 600px at 50% 100%, var(--green-dim), transparent 60%);
+      radial-gradient(ellipse 800px 600px at 50% 100%, var(--green-dim), transparent 60%),
+      linear-gradient(180deg, rgba(10,13,18,0.55) 0%, rgba(10,13,18,0.85) 75%, var(--bg) 100%);
   }
-  .hero-inner{max-width:1180px; margin:0 auto; padding:0 24px; width:100%;}
+  .hero-inner{max-width:1180px; margin:0 auto; padding:0 24px; width:100%; position:relative; z-index:2;}
   .hero h1{
     font-size:clamp(42px, 8.5vw, 96px);
     line-height:0.98; font-weight:700;
@@ -160,6 +168,17 @@
     font-size:clamp(22px,3vw,30px); line-height:1.4; max-width:760px; margin:70px auto 0; text-align:center; color:var(--text);
   }
   .quote span{color:var(--amber);}
+  .dine-photo{
+    border-radius:var(--radius); overflow:hidden; border:1px solid var(--line);
+    margin-bottom:40px; height:340px; position:relative;
+  }
+  .dine-photo img{width:100%; height:100%; object-fit:cover;}
+  .dine-photo::after{
+    content:'On the table'; position:absolute; left:22px; bottom:18px;
+    font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:0.06em;
+    color:var(--text); background:rgba(10,13,18,0.55); padding:7px 13px; border-radius:100px;
+    backdrop-filter:blur(6px);
+  }
 
   /* ---------- PLAY ---------- */
   #play{background:linear-gradient(180deg, var(--bg) 0%, #0C140B 100%);}
@@ -176,7 +195,15 @@
   }
   .pitch-visual::after{
     content:''; position:absolute; left:50%; top:24px; bottom:24px; width:1.5px;
-    background:rgba(126,217,87,0.35); transform:translateX(-50%);
+    background:rgba(126,217,87,0.35); transform:translateX(-50%); z-index:1;
+  }
+  .pitch-visual::before{z-index:1;}
+  .pitch-video{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.55; z-index:0;
+  }
+  .pitch-overlay{
+    position:absolute; inset:0; z-index:1;
+    background:linear-gradient(180deg, rgba(12,20,11,0.35) 0%, rgba(12,20,11,0.85) 100%);
   }
   .pitch-stats{display:grid; grid-template-columns:repeat(4,1fr); gap:26px; position:relative; z-index:2;}
   .pitch-stat b{display:block; font-family:'Space Grotesk',sans-serif; font-size:clamp(22px,3vw,32px); color:var(--green);}
@@ -205,6 +232,17 @@
   .brand-chip{
     font-family:'JetBrains Mono',monospace; font-size:11.5px; padding:7px 13px;
     border:1px solid var(--line); border-radius:100px; color:var(--dim);
+  }
+  .drive-photo{
+    border-radius:var(--radius); overflow:hidden; border:1px solid var(--line);
+    height:300px; position:relative;
+  }
+  .drive-photo img{width:100%; height:100%; object-fit:cover;}
+  .drive-photo::after{
+    content:'On display at KB Lamah Motors'; position:absolute; left:22px; bottom:18px;
+    font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:0.03em;
+    color:var(--text); background:rgba(10,13,18,0.55); padding:7px 13px; border-radius:100px;
+    backdrop-filter:blur(6px);
   }
 
   /* ---------- HERITAGE ---------- */
@@ -269,7 +307,7 @@
 
 <header id="siteHeader">
   <nav class="nav">
-    <div class="logo"><span class="dot" id="navDot"></span>LAMAH HUB</div>
+    <div class="logo"><img src="lamahhublogo.jpg" alt="Lamah Hub logo">LAMAH HUB</div>
     <ul class="nav-links" id="navLinks">
       <li><a href="#dine" data-zone="dine">Dine</a></li>
       <li><a href="#play" data-zone="play">Play</a></li>
@@ -290,6 +328,10 @@
 
 <!-- HERO -->
 <section class="hero">
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="lamahherosection.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
   <div class="hero-inner">
     <div class="eyebrow">MOGADISHU CITY CENTRE · KADUNA · EST. 2026</div>
     <h1>One address.<br><em>Three worlds.</em></h1>
@@ -316,6 +358,9 @@
         <h2>Kaduna's table,<br>set for every mood.</h2>
       </div>
       <p class="desc">From an easy weekday lunch to a full evening out, indoors or under the sky, with a menu that keeps growing.</p>
+    </div>
+    <div class="dine-photo reveal">
+      <img src="foodpic.jpg" alt="A dish served at Lamah Hub">
     </div>
     <div class="menu-grid reveal">
       <div class="menu-card">
@@ -352,6 +397,10 @@
       <p class="desc">Regulation 5-a-side and 7-a-side football, snooker, and private VIP rooms for match nights.</p>
     </div>
     <div class="pitch-visual reveal">
+      <video class="pitch-video" autoplay muted loop playsinline>
+        <source src="footballpitchvideo.mp4" type="video/mp4">
+      </video>
+      <div class="pitch-overlay"></div>
       <div class="pitch-stats">
         <div class="pitch-stat"><b>5v5</b><span>Small-sided pitch</span></div>
         <div class="pitch-stat"><b>7v7</b><span>Full-side pitch</span></div>
@@ -408,6 +457,9 @@
         </div>
       </div>
     </div>
+    <div class="drive-photo reveal">
+      <img src="bikeevshowroom.jpg" alt="Electric mobility on display at Lamah Hub">
+    </div>
   </div>
 </section>
 
@@ -455,7 +507,7 @@
 <footer>
   <div class="wrap">
     <div class="footer-top">
-      <div class="logo"><span class="dot" style="background:var(--amber);"></span>LAMAH HUB</div>
+      <div class="logo"><img src="lamahhublogo.jpg" alt="Lamah Hub logo">LAMAH HUB</div>
       <div class="footer-links">
         <a href="#dine">Dine</a>
         <a href="#play">Play</a>
